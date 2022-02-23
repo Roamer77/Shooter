@@ -4,25 +4,33 @@ using UnityEngine;
 
 public class Aiming : MonoBehaviour
 {
-    public float Distance;
-    private Ray _ray;
+    private Vector3 _input;
 
-    public LineRenderer AimLine;
-    public float AimDistance;
+    public float Distance;
+    public Ray Ray;
+    private LineRenderer AimLine;
+
+    public bool isAming = false;
+    public Vector3 AimDistance;
+
     public Transform Player;
-    
+
     void Start()
     {
-          
+        AimLine = GetComponent<LineRenderer>();
+        AimLine.enabled = isAming;
     }
-    void Update() 
+    void Update()
     {
-        Aim(Player.rotation);
-            
+        AimLine.enabled = isAming;
+        AimLine.transform.rotation = Player.transform.rotation;
     }
-    public void Aim( Quaternion playerRotation)
+
+    public void Aim(Quaternion playerRotation, Vector3 aimpoint)
     {
-        _ray = new Ray(Player.position,  playerRotation * Vector3.forward);  
-        Debug.DrawRay(_ray.origin, _ray.direction * Distance);    
+        Ray = new Ray(Player.position, playerRotation * Vector3.forward);
+        Debug.DrawRay(Ray.origin, Ray.direction * Distance);
+        AimLine.SetPosition(0, Player.position);
+        AimLine.SetPosition(1, aimpoint);
     }
 }

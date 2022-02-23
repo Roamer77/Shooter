@@ -360,7 +360,7 @@
 "Assets/Scripts/PlayerController.cs"
 "Assets/Scripts/RightButtonActions.cs"
 "Assets/Scripts/RollMovement.cs"
-"Assets/Scripts/Shoot.cs"
+"Assets/Scripts/Shooting.cs"
 -langversion:9.0
 
 /deterministic

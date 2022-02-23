@@ -243,6 +243,51 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 1233636646}
+--- !u!1 &219605383
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 219605387}
+  - component: {fileID: 219605389}
+  m_Layer: 0
+  m_Name: AimPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: -5487077368411116049, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &219605387
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 219605383}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.8104165, y: 0.89367676, z: 0.7959814}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &219605389
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 219605383}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &248108214
 GameObject:
   m_ObjectHideFlags: 0
@@ -325,9 +370,10 @@ GameObject:
   - component: {fileID: 318770420}
   - component: {fileID: 318770419}
   - component: {fileID: 318770418}
+  - component: {fileID: 318770422}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -410,6 +456,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &318770422
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 318770417}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &389189337
 GameObject:
   m_ObjectHideFlags: 0
@@ -1390,7 +1452,6 @@ GameObject:
   - component: {fileID: 1233636651}
   - component: {fileID: 1233636656}
   - component: {fileID: 1233636653}
-  - component: {fileID: 1233636654}
   - component: {fileID: 1233636655}
   m_Layer: 0
   m_Name: Player
@@ -1470,7 +1531,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1233636646}
   m_LocalRotation: {x: 0, y: 0.999962, z: -0.008726558, w: 0}
-  m_LocalPosition: {x: -0.21942553, y: 1.2081, z: 0.050244387}
+  m_LocalPosition: {x: -1.32, y: 1.2081, z: 0.050244387}
   m_LocalScale: {x: 0.79351854, y: 1.3772017, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1509,7 +1570,11 @@ MonoBehaviour:
   _player: {fileID: 1233636651}
   _speed: 3
   _turnSpeed: 360
-  _joystick: {fileID: 1381872304}
+  _leftJoystick: {fileID: 1381872304}
+  _rightJoystick: {fileID: 1497356932}
+  _aiming: {fileID: 1233636656}
+  AimPoint: {fileID: 219605383}
+  Shooting: {fileID: 0}
   ExternalMovement: {fileID: 1233636653}
 --- !u!114 &1233636653
 MonoBehaviour:
@@ -1526,26 +1591,6 @@ MonoBehaviour:
   TargetRB: {fileID: 1233636651}
   Speed: 20
   DashTime: 1
---- !u!95 &1233636654
-Animator:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1233636646}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 0dcfc66bc6d4e44b6a94fffaa36a1887, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 2
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!120 &1233636655
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -1558,7 +1603,7 @@ LineRenderer:
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
-  m_MotionVectors: 0
+  m_MotionVectors: 2
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
@@ -1566,7 +1611,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1589,7 +1634,7 @@ LineRenderer:
   m_SortingOrder: 0
   m_Positions:
   - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 0, z: 0}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -1598,7 +1643,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.43037987
+        value: 0.20253372
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -1610,8 +1655,8 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.14509805, g: 1, b: 0.050980397, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
+      key0: {r: 0.6792453, g: 0.6792453, b: 0.6792453, a: 0.38039216}
+      key1: {r: 0.6784314, g: 0.6784314, b: 0.6784314, a: 0.38039216}
       key2: {r: 0, g: 0, b: 0, a: 1}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -1619,7 +1664,7 @@ LineRenderer:
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
       ctime0: 0
-      ctime1: 64571
+      ctime1: 65535
       ctime2: 0
       ctime3: 0
       ctime4: 0
@@ -1627,8 +1672,8 @@ LineRenderer:
       ctime6: 0
       ctime7: 0
       atime0: 0
-      atime1: 31226
-      atime2: 44718
+      atime1: 65535
+      atime2: 64764
       atime3: 0
       atime4: 0
       atime5: 0
@@ -1636,7 +1681,7 @@ LineRenderer:
       atime7: 0
       m_Mode: 0
       m_NumColorKeys: 2
-      m_NumAlphaKeys: 3
+      m_NumAlphaKeys: 2
     numCornerVertices: 0
     numCapVertices: 0
     alignment: 0
@@ -1644,7 +1689,7 @@ LineRenderer:
     shadowBias: 0.5
     generateLightingData: 0
   m_UseWorldSpace: 1
-  m_Loop: 0
+  m_Loop: 1
 --- !u!114 &1233636656
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1658,8 +1703,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Distance: 4
-  AimLine: {fileID: 1233636655}
-  AimDistance: 20
+  isAming: 0
+  AimDistance: {x: -1.2, y: 1, z: -10}
   Player: {fileID: 1233636650}
 --- !u!1001 &1291450512
 PrefabInstance:
@@ -1909,6 +1954,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1405537561}
   m_CullTransparentMesh: 1
+--- !u!114 &1497356932 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2929252283123773951, guid: aaa2c939c0359ac4dbce3f49e8b90252, type: 3}
+  m_PrefabInstance: {fileID: 916665699}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45977bbae16431c46a013576a1aea384, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1599047257
 GameObject:
   m_ObjectHideFlags: 0
