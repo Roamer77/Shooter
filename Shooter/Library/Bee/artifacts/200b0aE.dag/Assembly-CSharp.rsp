@@ -356,11 +356,14 @@
 "Assets/Joystick Pack/Scripts/Joysticks/VariableJoystick.cs"
 "Assets/Scripts/Aiming.cs"
 "Assets/Scripts/CameraFollow.cs"
+"Assets/Scripts/Gun.cs"
+"Assets/Scripts/IWeapon.cs"
 "Assets/Scripts/MoventHelper.cs"
 "Assets/Scripts/PlayerController.cs"
 "Assets/Scripts/RightButtonActions.cs"
 "Assets/Scripts/RollMovement.cs"
 "Assets/Scripts/Shooting.cs"
+"Assets/Scripts/Target.cs"
 -langversion:9.0
 
 /deterministic

@@ -5,18 +5,83 @@ using UnityEngine;
 public class Shooting : MonoBehaviour
 {
     private RaycastHit _hit;
+    private float _lastShootTime;
 
-    public void Shoot(Ray _aimingRay, float distance)
+    private ParticleSystem _fireEffect;
+    private Light _fireLight;
+
+    public Transform BulletSpawnPoint;
+
+    public LayerMask Layer;
+
+    public TrailRenderer BulletTrail;
+
+    public GameObject FireEffect;
+
+    public ParticleSystem InjuryEffect;
+
+    void Start()
     {
-        //добавить маску для raycast
-        if (Physics.Raycast(_aimingRay.origin, _aimingRay.direction, out _hit, distance))
+        _fireEffect = FireEffect.GetComponentInChildren<ParticleSystem>();
+    }
+    public void Shoot(float distance, float fireRate)
+    {
+        if (_lastShootTime + fireRate < Time.time)
         {
-            Debug.Log("Hit");
-            var hitForce = 10;
-            if (_hit.rigidbody != null)
+            _hit = new RaycastHit();
+            var ray = new Ray(BulletSpawnPoint.position, BulletSpawnPoint.forward * -distance);
+
+            Physics.Raycast(ray.origin, ray.direction, out _hit, distance, Layer);
+
+            var buliteTrail = InitTrail(distance);
+
+            if (_hit.collider != null)
             {
-                _hit.rigidbody.AddForce(-_hit.normal * hitForce);
+                var target = _hit.collider.GetComponent<Target>();
+                StartCoroutine(SpawnTrail(buliteTrail, _hit.point));
+                _lastShootTime = Time.time;
+                if (target != null)
+                {
+                    target.Damege(1);
+                    CreateInjuryEffect();
+                }
             }
+            else
+            {
+                var maxFireDistance = BulletSpawnPoint.position + BulletSpawnPoint.forward * -distance;
+                StartCoroutine(SpawnTrail(buliteTrail, maxFireDistance));
+                _lastShootTime = Time.time;
+            }
+
         }
+
+    }
+
+    private void CreateInjuryEffect()
+    {
+        var injuryEffect = Instantiate(InjuryEffect, _hit.point, Quaternion.LookRotation(_hit.normal));
+        injuryEffect.Play();
+        Destroy(injuryEffect, 1f);
+    }
+
+    private TrailRenderer InitTrail(float distnce)
+    {
+        var buliteTrail = Instantiate(BulletTrail, BulletSpawnPoint.position, Quaternion.identity);
+        buliteTrail.gameObject.SetActive(true);
+        return buliteTrail;
+    }
+
+    private IEnumerator SpawnTrail(TrailRenderer bulletTrail, Vector3 trilEndPoint)
+    {
+        float time = 0;
+        while (time < 1)
+        {
+            bulletTrail.transform.position = Vector3.Lerp(BulletSpawnPoint.position, trilEndPoint, time);
+            time += Time.deltaTime / bulletTrail.time;
+            yield return null;
+        }
+        _fireEffect.Play();
+        bulletTrail.transform.position = trilEndPoint;
+        Destroy(bulletTrail.gameObject, bulletTrail.time);
     }
 }

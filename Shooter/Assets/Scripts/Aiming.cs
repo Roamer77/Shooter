@@ -10,6 +10,7 @@ public class Aiming : MonoBehaviour
     public Ray Ray;
     private LineRenderer AimLine;
 
+    [HideInInspector]
     public bool isAming = false;
     public Vector3 AimDistance;
 
@@ -28,8 +29,6 @@ public class Aiming : MonoBehaviour
 
     public void Aim(Quaternion playerRotation, Vector3 aimpoint)
     {
-        Ray = new Ray(Player.position, playerRotation * Vector3.forward);
-        Debug.DrawRay(Ray.origin, Ray.direction * Distance);
         AimLine.SetPosition(0, Player.position);
         AimLine.SetPosition(1, aimpoint);
     }
