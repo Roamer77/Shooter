@@ -16,7 +16,6 @@ public class PlayerController : MonoBehaviour
     public Aiming _aiming;
     public GameObject AimPoint;
 
-    public Shooting Shooting;
     public RollMovement ExternalMovement;
     private Vector3 _input;
     private Vector3 _rightJSInput;
@@ -28,6 +27,9 @@ public class PlayerController : MonoBehaviour
         _rightJSInput = new Vector3(_rightJoystick.Horizontal, 0, _rightJoystick.Vertical);
     }
 
+    void Start() {
+        
+    }
     private void Update()
     {
         GetInput();
@@ -65,13 +67,12 @@ public class PlayerController : MonoBehaviour
 
             transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, _turnSpeed * Time.deltaTime);
             
-            AimPoint.transform.position = transform.TransformPoint(0,0,4);
+            AimPoint.transform.position = transform.TransformPoint(0,0,10);
             _aiming.isAming = true;
             _aiming.Aim(transform.rotation, AimPoint.transform.position);
         }
         else{
            _aiming.isAming = false; 
-           Shooting.Shoot(_aiming.Ray,_aiming.Distance);
         }
         
     }
