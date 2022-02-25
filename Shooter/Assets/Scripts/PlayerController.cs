@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
@@ -10,41 +11,45 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private float _turnSpeed = 360f;
 
-    [SerializeField] private FixedJoystick _leftJoystick;
-    [SerializeField] private FixedJoystick _rightJoystick;
+    private PlayerInput _playerInput;
 
     public Aiming _aiming;
-    public GameObject AimPoint;
+
+    public Gun Gun;
 
     public RollMovement ExternalMovement;
-    private Vector3 _input;
-    private Vector3 _rightJSInput;
+    private Vector3 _leftJoyStickInput;
+    private Vector3 _rightJoyStickInput;
 
 
     private void GetInput()
     {
-        _input = new Vector3(_leftJoystick.Horizontal, 0, _leftJoystick.Vertical);
-        _rightJSInput = new Vector3(_rightJoystick.Horizontal, 0, _rightJoystick.Vertical);
+        var leftJoyStickInput = _playerInput.actions["Move"].ReadValue<Vector2>();
+        var rightJoyStickInput = _playerInput.actions["Aim"].ReadValue<Vector2>();
+
+        _leftJoyStickInput = new Vector3(leftJoyStickInput.x, 0, leftJoyStickInput.y);
+        _rightJoyStickInput = new Vector3(rightJoyStickInput.x, 0, rightJoyStickInput.y);
     }
 
-    void Start() {
-        
+    void Start()
+    {
+        _playerInput = GetComponent<PlayerInput>();
+        _playerInput.actions["Aim"].canceled += (ctx) => Gun.MakeDamege();
+    }
+    void OnDisable()
+    {
+        _playerInput.actions["Aim"].canceled -= (ctx) => Gun.MakeDamege();
     }
     private void Update()
     {
         GetInput();
-        Look(_input); 
-        RotatePlayer(_rightJSInput);  
+        Look(_leftJoyStickInput);
+        RotatePlayer(_rightJoyStickInput);
     }
 
-    private void FixedUpdate() 
+    private void FixedUpdate()
     {
-        if(Input.GetKeyDown(KeyCode.X))
-        {
-            ExternalMovement.Roll();
-            return;
-        }
-        Move();    
+        Move();
     }
 
     private void Look(Vector3 input)
@@ -58,7 +63,7 @@ public class PlayerController : MonoBehaviour
         }
 
     }
-     private void RotatePlayer(Vector3 input)
+    private void RotatePlayer(Vector3 input)
     {
         if (input != Vector3.zero)
         {
@@ -66,20 +71,20 @@ public class PlayerController : MonoBehaviour
             var rotation = Quaternion.LookRotation(relative, Vector3.up);
 
             transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, _turnSpeed * Time.deltaTime);
-            
-            AimPoint.transform.position = transform.TransformPoint(0,0,10);
+
             _aiming.isAming = true;
-            _aiming.Aim(transform.rotation, AimPoint.transform.position);
+            _aiming.Aim(transform.rotation, Gun.GetAimDistance().FireDistance);
         }
-        else{
-           _aiming.isAming = false; 
+        else
+        {
+            _aiming.isAming = false;
         }
-        
+
     }
 
     private void Move()
     {
-        _player.MovePosition(transform.position + (transform.forward * _input.magnitude) * _speed * Time.deltaTime);
+        _player.MovePosition(transform.position + (transform.forward * _leftJoyStickInput.magnitude) * _speed * Time.deltaTime);
     }
-  
+
 }

@@ -8,7 +8,6 @@ public class Shooting : MonoBehaviour
     private float _lastShootTime;
 
     private ParticleSystem _fireEffect;
-    private Light _fireLight;
 
     public Transform BulletSpawnPoint;
 
@@ -20,11 +19,13 @@ public class Shooting : MonoBehaviour
 
     public ParticleSystem InjuryEffect;
 
+    private int _damgeValue = 1;
+
     void Start()
     {
         _fireEffect = FireEffect.GetComponentInChildren<ParticleSystem>();
     }
-    public void Shoot(float distance, float fireRate)
+    public void Shoot(float distance, float fireRate, ref int currentAmmoValue)
     {
         if (_lastShootTime + fireRate < Time.time)
         {
@@ -35,15 +36,21 @@ public class Shooting : MonoBehaviour
 
             var buliteTrail = InitTrail(distance);
 
+            if (currentAmmoValue != 0)
+            {
+                currentAmmoValue--;
+            }
+
             if (_hit.collider != null)
             {
                 var target = _hit.collider.GetComponent<Target>();
                 StartCoroutine(SpawnTrail(buliteTrail, _hit.point));
+
                 _lastShootTime = Time.time;
                 if (target != null)
                 {
-                    target.Damege(1);
                     CreateInjuryEffect();
+                    target.Damege(_damgeValue);
                 }
             }
             else

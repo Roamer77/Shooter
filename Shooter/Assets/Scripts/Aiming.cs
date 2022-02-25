@@ -5,14 +5,11 @@ using UnityEngine;
 public class Aiming : MonoBehaviour
 {
     private Vector3 _input;
-
-    public float Distance;
     public Ray Ray;
     private LineRenderer AimLine;
 
     [HideInInspector]
     public bool isAming = false;
-    public Vector3 AimDistance;
 
     public Transform Player;
 
@@ -27,9 +24,9 @@ public class Aiming : MonoBehaviour
         AimLine.transform.rotation = Player.transform.rotation;
     }
 
-    public void Aim(Quaternion playerRotation, Vector3 aimpoint)
+    public void Aim(Quaternion playerRotation, float aimDistance)
     {
         AimLine.SetPosition(0, Player.position);
-        AimLine.SetPosition(1, aimpoint);
+        AimLine.SetPosition(1, Player.position + (Player.forward * aimDistance));
     }
 }
