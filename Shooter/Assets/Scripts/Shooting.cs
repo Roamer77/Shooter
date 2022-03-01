@@ -7,25 +7,13 @@ public class Shooting : MonoBehaviour
     private RaycastHit _hit;
     private float _lastShootTime;
 
-    private ParticleSystem _fireEffect;
-
     public Transform BulletSpawnPoint;
 
     public LayerMask Layer;
 
-    public TrailRenderer BulletTrail;
+    public Gun Gun;
 
-    public GameObject FireEffect;
-
-    public ParticleSystem InjuryEffect;
-
-    private int _damgeValue = 1;
-
-    void Start()
-    {
-        _fireEffect = FireEffect.GetComponentInChildren<ParticleSystem>();
-    }
-    public void Shoot(float distance, float fireRate, ref int currentAmmoValue)
+    public void Shoot(float distance, float fireRate, int gunDamage)
     {
         if (_lastShootTime + fireRate < Time.time)
         {
@@ -36,10 +24,7 @@ public class Shooting : MonoBehaviour
 
             var buliteTrail = InitTrail(distance);
 
-            if (currentAmmoValue != 0)
-            {
-                currentAmmoValue--;
-            }
+            DecreaseAmmoValue();
 
             if (_hit.collider != null)
             {
@@ -50,7 +35,7 @@ public class Shooting : MonoBehaviour
                 if (target != null)
                 {
                     CreateInjuryEffect();
-                    target.Damege(_damgeValue);
+                    target.Damege(gunDamage);
                 }
             }
             else
@@ -63,17 +48,23 @@ public class Shooting : MonoBehaviour
         }
 
     }
-
+    private void DecreaseAmmoValue()
+    {
+        if (Gun.CurrentAmmoValue != 0)
+        {
+            Gun.CurrentAmmoValue--;
+        }
+    }
     private void CreateInjuryEffect()
     {
-        var injuryEffect = Instantiate(InjuryEffect, _hit.point, Quaternion.LookRotation(_hit.normal));
+        var injuryEffect = Instantiate(Gun.InjuryEffect, _hit.point, Quaternion.LookRotation(_hit.normal));
         injuryEffect.Play();
         Destroy(injuryEffect, 1f);
     }
 
     private TrailRenderer InitTrail(float distnce)
     {
-        var buliteTrail = Instantiate(BulletTrail, BulletSpawnPoint.position, Quaternion.identity);
+        var buliteTrail = Instantiate(Gun.Bullet.BulletTrail, BulletSpawnPoint.position, Quaternion.identity);
         buliteTrail.gameObject.SetActive(true);
         return buliteTrail;
     }
@@ -87,7 +78,7 @@ public class Shooting : MonoBehaviour
             time += Time.deltaTime / bulletTrail.time;
             yield return null;
         }
-        _fireEffect.Play();
+        Gun.FireEffect.Play();
         bulletTrail.transform.position = trilEndPoint;
         Destroy(bulletTrail.gameObject, bulletTrail.time);
     }

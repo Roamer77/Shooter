@@ -6,6 +6,8 @@ public class UIManager : MonoBehaviour
 {
     public AmmoInfo AmmoInfoDisplayer;
 
+    public WeaponInfo WeaponInfo;
+
     public Player Player;
 
     void Start()
@@ -18,6 +20,7 @@ public class UIManager : MonoBehaviour
         if (AmmoInfoDisplayer != null)
         {
             AmmoInfoDisplayer.SetCurrentAmmoValueText(Player.Gun.GetCurrentAmmoValue());
+            WeaponInfo.ShowWeaponName(Player.Gun.GetGunInfo().Name);
         }
     }
 }

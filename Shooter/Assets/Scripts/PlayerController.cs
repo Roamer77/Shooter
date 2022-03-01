@@ -7,7 +7,6 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Rigidbody _player;
 
-    [SerializeField] private float _speed;
 
     [SerializeField] private float _turnSpeed = 360f;
 
@@ -15,7 +14,7 @@ public class PlayerController : MonoBehaviour
 
     public Aiming _aiming;
 
-    public Gun Gun;
+    public Player Player;
 
     public RollMovement ExternalMovement;
     private Vector3 _leftJoyStickInput;
@@ -34,11 +33,11 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         _playerInput = GetComponent<PlayerInput>();
-        _playerInput.actions["Aim"].canceled += (ctx) => Gun.MakeDamege();
+        _playerInput.actions["Aim"].canceled += (ctx) => Player.Gun.MakeDamege();
     }
     void OnDisable()
     {
-        _playerInput.actions["Aim"].canceled -= (ctx) => Gun.MakeDamege();
+        _playerInput.actions["Aim"].canceled -= (ctx) => Player.Gun.MakeDamege();
     }
     private void Update()
     {
@@ -73,7 +72,7 @@ public class PlayerController : MonoBehaviour
             transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, _turnSpeed * Time.deltaTime);
 
             _aiming.isAming = true;
-            _aiming.Aim(transform.rotation, Gun.GetAimDistance().FireDistance);
+            _aiming.Aim(Player.WeaponPlace.transform.position, Player.Gun.GetGunInfo().FireDistance);
         }
         else
         {
@@ -84,7 +83,7 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
-        _player.MovePosition(transform.position + (transform.forward * _leftJoyStickInput.magnitude) * _speed * Time.deltaTime);
+        _player.MovePosition(transform.position + (transform.forward * _leftJoyStickInput.magnitude) * Player.Speed * Time.deltaTime);
     }
 
 }

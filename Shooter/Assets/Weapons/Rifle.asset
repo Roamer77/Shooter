@@ -16,3 +16,4 @@ MonoBehaviour:
   FireRate: 0.75
   BulletAmount: 14
   FireDistance: 10
+  Damege: 1

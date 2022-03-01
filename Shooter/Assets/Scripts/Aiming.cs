@@ -24,9 +24,9 @@ public class Aiming : MonoBehaviour
         AimLine.transform.rotation = Player.transform.rotation;
     }
 
-    public void Aim(Quaternion playerRotation, float aimDistance)
+    public void Aim(Vector3 aimingStartPostion, float aimDistance)
     {
-        AimLine.SetPosition(0, Player.position);
-        AimLine.SetPosition(1, Player.position + (Player.forward * aimDistance));
+        AimLine.SetPosition(0, aimingStartPostion);
+        AimLine.SetPosition(1, aimingStartPostion + (Player.forward * aimDistance));
     }
 }

@@ -4,20 +4,29 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject _weaponPlace;
+    public GameObject WeaponPlace;
 
     public Gun Gun;
+
+    public float Speed;
 
     
     void Start()
     {
-        
+        PlaceWeapon();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetToMainHand(Gun instance)
     {
-        
+        Destroy(Gun.gameObject);
+        Gun = instance;
+        Gun.transform.SetParent(transform);
+        PlaceWeapon();
+        Gun.transform.localRotation = new Quaternion(0,180f,0,0);
+    }
+
+    public void PlaceWeapon()
+    {
+        Gun.transform.position = WeaponPlace.transform.position;
     }
 }

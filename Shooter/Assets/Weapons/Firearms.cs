@@ -11,4 +11,6 @@ public class Firearms : ScriptableObject
     public int BulletAmount;
 
     public float FireDistance ;
+
+    public int Damege;
 }

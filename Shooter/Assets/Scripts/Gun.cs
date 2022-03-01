@@ -10,32 +10,40 @@ public class Gun : MonoBehaviour, IWeapon
 
     [SerializeField]
     protected Shooting _shooting;
+    public ParticleSystem FireEffect;
+    public ParticleSystem InjuryEffect;
 
-    protected int _currentAmmoValue;
+    public Bullet Bullet;
 
-    void Start() 
+    protected int GunDamage;
+
+    [HideInInspector]
+    public int CurrentAmmoValue;
+
+    void Start()
     {
-        _currentAmmoValue = _firearmsInfo.BulletAmount;
+        CurrentAmmoValue = _firearmsInfo.BulletAmount;
+        GunDamage = _firearmsInfo.Damege + Bullet.Damage;
     }
 
     public virtual void MakeDamege()
     {
-        if(_currentAmmoValue > 1)
+        if (CurrentAmmoValue > 1)
         {
-         StartCoroutine(ShootingQueue());
+            StartCoroutine(ShootingQueue());
         }
     }
     private IEnumerator ShootingQueue()
     {
-        _shooting.Shoot(_firearmsInfo.FireDistance,_firearmsInfo.FireRate, ref _currentAmmoValue);
+        _shooting.Shoot(_firearmsInfo.FireDistance, _firearmsInfo.FireRate, GunDamage);
         yield return new WaitForSeconds(.2f);
-        _shooting.Shoot(_firearmsInfo.FireDistance,_firearmsInfo.FireRate, ref _currentAmmoValue);
+        _shooting.Shoot(_firearmsInfo.FireDistance, _firearmsInfo.FireRate, GunDamage);
         yield return new WaitForSeconds(.2f);
-        _shooting.Shoot(_firearmsInfo.FireDistance,_firearmsInfo.FireRate, ref _currentAmmoValue);
+        _shooting.Shoot(_firearmsInfo.FireDistance, _firearmsInfo.FireRate, GunDamage);
     }
 
-    public Firearms GetAimDistance () => _firearmsInfo;
+    public Firearms GetGunInfo() => _firearmsInfo;
 
-    public int GetCurrentAmmoValue() => _currentAmmoValue;
+    public int GetCurrentAmmoValue() => CurrentAmmoValue;
 
 }
