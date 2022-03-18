@@ -72,7 +72,7 @@ public class PlayerController : MonoBehaviour
             transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, _turnSpeed * Time.deltaTime);
 
             _aiming.isAming = true;
-            _aiming.Aim(Player.WeaponPlace.transform.position, Player.Gun.GetGunInfo().FireDistance);
+            _aiming.Aim(Player.WeaponPlace.transform.position, Player.Gun.GetGunInfo().FireDistance.Value);
         }
         else
         {

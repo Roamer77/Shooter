@@ -1,61 +1,57 @@
 using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Inventory : MonoBehaviour, IInventory
+public class Inventory : MonoBehaviour
 {
+    private List<Item> _allItems = new List<Item>();
     [SerializeField]
-    private InventorySlotsController _inventorySlotsController;
+    private SavingInventorySystem _savingInventorySystem;
 
-    [SerializeField]
-    private ItemsOnPlayerBar _itemsOnPlayerBar;
+    public event Action<Item> OnItemAdd;
+    public event Action<Item> OnItemDelete;
 
-    private List<InventorySlot> _slots;
-
-    void Awake()
+    public List<Item> AllItems
     {
-        _slots = _inventorySlotsController.Slots;
+        get => _allItems;
+    }
+
+    void Start()
+    {
+        if(_allItems.Count <=0)
+        {
+            //_allItems = _savingInventorySystem.LoadInventory();
+        }
     }
 
     public void Add(Item item)
     {
-        for (var i = 0; i < _slots.Count; i++)
+        _allItems.Add(item);
+        OnItemAdd?.Invoke(item);
+        //_savingInventorySystem.SaveInventory(_allItems);
+    }
+
+    public void DeleteItem(Item item)
+    {
+        _allItems.Remove(item);
+        OnItemDelete?.Invoke(item);
+       // _savingInventorySystem.SaveInventory(_allItems);
+    }
+
+    public Item GetItem(int id)
+    {
+        return _allItems.Find(item => item.Id == id);
+    }
+
+    public void ReplaceItem(Item itemToReplace, Item newItem)
+    {
+        var index = _allItems.FindIndex(obj => obj == itemToReplace);
+
+        if (index != -1)
         {
-            if (_slots[i].isEmply)
-            {
-                _slots[i].AddItem(item);
-                _slots[i].isEmply = false;
-                return;
-            }
+            _allItems[index] = newItem;
         }
-
+        //_savingInventorySystem.SaveInventory(_allItems);
     }
-
-    public void Delete(int index)
-    {
-        if (index <= _slots.Count)
-        {
-            _slots.RemoveAt(index);
-        }
-    }
-
-    public Item Get(int index)
-    {
-        if (index <= _slots.Count)
-        {
-            return _slots[index].Item;
-        }
-        return null;
-    }
-
-    public void AddToOnPlayerSlots(Item item)
-    {
-        _itemsOnPlayerBar.Add(item);
-    }
-
-    public bool IsPlayerMainSlotsEmpty()
-    {
-        return _itemsOnPlayerBar.IsMainSlotsEmpty();
-    }
-
 }

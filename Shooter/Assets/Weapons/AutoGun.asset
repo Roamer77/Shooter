@@ -12,8 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36faf2abe44d34433b094b2c57b81b28, type: 3}
   m_Name: AutoGun
   m_EditorClassIdentifier: 
-  Name: AutoGun
-  FireRate: 0.2
-  BulletAmount: 30
-  FireDistance: 4
-  Damege: 1
+  FireRate:
+    _name: Fire Rate
+    _value: 0.2
+  BulletAmount:
+    _name: Bullet Amount
+    _value: 30
+  FireDistance:
+    _name: Fire Distance
+    _value: 5
+  Damege:
+    _name: Damage
+    _value: 1
+  WeaponTypes: 1

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Gun : MonoBehaviour, IWeapon
 {
-
     [SerializeField]
     protected Firearms _firearmsInfo;
 
@@ -20,10 +19,14 @@ public class Gun : MonoBehaviour, IWeapon
     [HideInInspector]
     public int CurrentAmmoValue;
 
+    public Firearms FirearmsInfo
+    {
+        get => _firearmsInfo;
+    }
     void Start()
     {
-        CurrentAmmoValue = _firearmsInfo.BulletAmount;
-        GunDamage = _firearmsInfo.Damege + Bullet.Damage;
+        CurrentAmmoValue = (int)_firearmsInfo.BulletAmount.Value;
+        GunDamage = (int)_firearmsInfo.Damege.Value  + Bullet.Damage;
     }
 
     public virtual void MakeDamege()
@@ -35,11 +38,11 @@ public class Gun : MonoBehaviour, IWeapon
     }
     private IEnumerator ShootingQueue()
     {
-        _shooting.Shoot(_firearmsInfo.FireDistance, _firearmsInfo.FireRate, GunDamage);
+        _shooting.Shoot(_firearmsInfo.FireDistance.Value, _firearmsInfo.FireRate.Value, GunDamage);
         yield return new WaitForSeconds(.2f);
-        _shooting.Shoot(_firearmsInfo.FireDistance, _firearmsInfo.FireRate, GunDamage);
+        _shooting.Shoot(_firearmsInfo.FireDistance.Value, _firearmsInfo.FireRate.Value, GunDamage);
         yield return new WaitForSeconds(.2f);
-        _shooting.Shoot(_firearmsInfo.FireDistance, _firearmsInfo.FireRate, GunDamage);
+        _shooting.Shoot(_firearmsInfo.FireDistance.Value, _firearmsInfo.FireRate.Value, GunDamage);
     }
 
     public Firearms GetGunInfo() => _firearmsInfo;

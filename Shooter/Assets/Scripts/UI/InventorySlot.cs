@@ -26,9 +26,6 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
     [SerializeField]
     private TextMeshProUGUI _amount;
 
-    private bool _wasSelected = false;
-
-
     public void Select()
     {
         _slotSelector.color = Color.black;
@@ -44,7 +41,15 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler
         _itemIcon.gameObject.SetActive(true);
         _amount.transform.parent.gameObject.SetActive(true);
         _itemIcon.sprite = item.Icon;
-        _amount.SetText(item.Amount.ToString());
+        _amount.SetText("1");
+    }
+
+    public void ClearSlot()
+    {
+        _itemIcon.gameObject.SetActive(false);
+        _amount.transform.parent.gameObject.SetActive(false);
+        _itemIcon.sprite = null;
+        this.Item = null;
     }
 
     public void OnPointerClick(PointerEventData eventData)

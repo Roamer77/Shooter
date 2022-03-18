@@ -14,26 +14,29 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
-
+        Player.onGunChanged += WeaponInfo.ShowWeaponName;
+    }
+    void OnDestroy()
+    {
+        Player.onGunChanged -= WeaponInfo.ShowWeaponName;
     }
 
     void Update()
     {
-        if (AmmoInfoDisplayer != null)
+        if (Player.Gun != null)
         {
             AmmoInfoDisplayer.SetCurrentAmmoValueText(Player.Gun.GetCurrentAmmoValue());
-            WeaponInfo.ShowWeaponName(Player.Gun.GetGunInfo().Name);
         }
     }
 
 
     public void OpenInventory()
     {
-        Inventory.SetVisable(true);
+        Inventory.gameObject.SetActive(true);
     }
 
     public void CloseInventory()
     {
-        Inventory.SetVisable(false);
+        Inventory.gameObject.SetActive(false);
     }
 }

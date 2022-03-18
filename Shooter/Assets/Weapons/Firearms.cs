@@ -5,12 +5,23 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Firearm", menuName = "Weapon/New firearm")]
 public class Firearms : ScriptableObject
 {
-    public string Name;
-    public float FireRate;
+    public Stat FireRate;
 
-    public int BulletAmount;
+    public Stat BulletAmount;
 
-    public float FireDistance ;
+    public Stat FireDistance;
 
-    public int Damege;
+    public Stat Damege;
+
+    public WeaponTypes WeaponTypes;
+
+    public Dictionary<int,Stat> GetAllStats()
+    {
+        var dictionary = new Dictionary<int, Stat>();
+        dictionary.Add(0,FireRate);
+        dictionary.Add(1,BulletAmount);
+        dictionary.Add(2,FireDistance);
+        dictionary.Add(3,Damege);
+        return dictionary;
+    }
 }

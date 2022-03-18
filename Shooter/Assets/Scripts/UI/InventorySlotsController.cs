@@ -12,12 +12,15 @@ public class InventorySlotsController : MonoBehaviour
     private GameObject _inventorySlots;
 
     [SerializeField]
+    private Inventory _inventory;
+
+    [SerializeField]
     private GameObject _closeInventoryButton;
 
     [SerializeField]
-    private GameObject _selectedItemPanel;
+    private SelectedItem _selectedItemPanel;
 
-    public List<InventorySlot> Slots {get; private set;}
+    public List<InventorySlot> Slots { get; private set; }
 
     private bool AnimatinPlay = false;
     private InventorySlot _previousSlot;
@@ -32,24 +35,59 @@ public class InventorySlotsController : MonoBehaviour
             Slots.Add(item);
             item.OnSelected += OnItemPress;
         }
+        for (int i = 0; i < _inventory.AllItems.Count; i++)
+        {
+            Slots[i].AddItem(_inventory.AllItems[i]);
+        }
+    }
+    void Start()
+    {
+        _inventory.OnItemDelete += RemoveSlot;
     }
 
 
+    void OnDestroy()
+    {
+        _inventory.OnItemDelete -= RemoveSlot;
+    }
+
+    public void FillSlot(Item itemToReplace, Item newItem)
+    {
+        var index = Slots.FindIndex(slot => slot.Item == itemToReplace);
+        if(index != -1)
+        {
+            Slots[index].AddItem(newItem);
+        }
+    }
+
+    private void RemoveSlot(Item item)
+    {
+        var currentSlot = Slots.Find(slot => slot.Item == item);
+        Slots.Remove(currentSlot);
+        currentSlot.ClearSlot();
+    }
+
     public void OnItemPress(InventorySlot currentSlot)
     {
-        if (!AnimatinPlay)
+        if(currentSlot.Item != null)
         {
-            Animator.Play("SelectInventoryItem");
-            AnimatinPlay = true;
-            _closeInventoryButton.SetActive(false);
-            _selectedItemPanel.SetActive(true);
+            if (!AnimatinPlay)
+            {
+                Animator.Play("SelectInventoryItem");
+                AnimatinPlay = true;
+                _closeInventoryButton.SetActive(false);
+                _selectedItemPanel.gameObject.SetActive(true);
+
+            }
+            if (_previousSlot && _previousSlot != currentSlot)
+            {
+                _previousSlot.Diselect();
+            }
+            currentSlot.Select();
+            _previousSlot = currentSlot;
+            _selectedItemPanel.DisplayItem(currentSlot); 
         }
-        if (_previousSlot && _previousSlot != currentSlot)
-        {
-            _previousSlot.Diselect();
-        }
-        currentSlot.Select();
-        _previousSlot = currentSlot;
+        
 
     }
     public void CloseSelectedItemPanel()
@@ -60,7 +98,7 @@ public class InventorySlotsController : MonoBehaviour
             _previousSlot.Diselect();
             AnimatinPlay = false;
             _closeInventoryButton.SetActive(true);
-              _selectedItemPanel.SetActive(false);
+            _selectedItemPanel.gameObject.SetActive(false);
         }
     }
 

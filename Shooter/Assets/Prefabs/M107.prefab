@@ -262,7 +262,6 @@ GameObject:
   - component: {fileID: 23745275597904220}
   - component: {fileID: 5509484891785276855}
   - component: {fileID: 1741388361300280879}
-  - component: {fileID: 6818698069881870498}
   m_Layer: 0
   m_Name: M107
   m_TagString: Untagged
@@ -277,8 +276,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1829597508155286}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: -6.5297585, y: 1.1610568, z: 1.2743292}
   m_LocalScale: {x: 3, y: 2.4, z: 2.4}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -375,21 +374,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 320
   Gun: {fileID: 5509484891785276855}
---- !u!114 &6818698069881870498
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1829597508155286}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34b4584914d03494799828da9067258e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _prefub: {fileID: 1829597508155286}
-  Amount: 1
-  Icon: {fileID: 21300000, guid: 084498a97279c42f58984551f3fd39f1, type: 3}
 --- !u!1 &8175025232734689059
 GameObject:
   m_ObjectHideFlags: 0

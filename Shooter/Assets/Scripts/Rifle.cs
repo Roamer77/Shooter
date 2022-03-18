@@ -8,7 +8,7 @@ public class Rifle : Gun
     {
         if (base.CurrentAmmoValue > 0)
         {
-            base._shooting.Shoot(base._firearmsInfo.FireDistance, base._firearmsInfo.FireRate, base.GunDamage);
+            base._shooting.Shoot(base._firearmsInfo.FireDistance.Value, base._firearmsInfo.FireRate.Value, base.GunDamage);
         }
     }
 }

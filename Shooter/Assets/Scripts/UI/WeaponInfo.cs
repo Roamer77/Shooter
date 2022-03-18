@@ -5,8 +5,9 @@ public class WeaponInfo : MonoBehaviour
 {
     public TextMeshProUGUI WeaponName;
 
-    public void ShowWeaponName(string name)
+
+    public void ShowWeaponName(Item item)
     {
-        WeaponName.SetText(name);
+        WeaponName.SetText(item.Name);
     }
 }

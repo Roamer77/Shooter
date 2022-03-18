@@ -1,21 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using System;
 
-public class Item : MonoBehaviour
+[CreateAssetMenu(fileName = "Item", menuName = "Item/New item")]
+[Serializable]
+
+public class Item : ScriptableObject
 {
-    [SerializeField]
-    private GameObject _prefub;
-   
-    public int Amount;
+    public int Id;
+
+    public string Name;
+    public GameObject Prefub;
+
+    public ScriptableObject Description;
 
     public Sprite Icon;
 
-    public string Description;
-
-    public SlotTypes SlotType;
-
-    public ItemType Type;
-
+    public ItemTypes Type;
+    
 }
